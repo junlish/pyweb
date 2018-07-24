@@ -1,0 +1,17 @@
+{%  extends "base.html" %}
+{%  import "bootstrap/wtf.html" as wtf %}
+
+{%  block title %} Flasky {% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>Hello, {% if name %}{{ name }} {% else %} 访客{% endif %} </h1>
+        {% if not known %}
+            <p>欢迎访问</p>
+         {% else %}
+            <p>欢迎再次光临！</p>
+        {% endif %}
+
+    </div>
+
+{% endblock %}
