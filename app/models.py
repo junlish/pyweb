@@ -41,7 +41,7 @@ class User(UserMixin, db.Model):
         s = TSerializer(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'confirm': self.id})
 
-    def confirm(self,token):
+    def confirm(self, token):
         s = TSerializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token)
@@ -53,6 +53,27 @@ class User(UserMixin, db.Model):
         self.confirm(True)
         db.session.add(self)
         return True
+
+    def generate_reset_token(self, expiration=3600):
+        s = TSerializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'reset': self.id})
+
+    @classmethod
+    def reset_password(cls, token, password):
+        s = TSerializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False, "Invalid token"
+
+        user_id = data.get('reset')
+        user = User.query.filter_by(id=user_id).first()
+        if user is None:
+            return False, "Invalid token - wrong user"
+        else:
+            user.password = password
+            return True, user
+
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
