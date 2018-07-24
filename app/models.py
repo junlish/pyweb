@@ -74,6 +74,27 @@ class User(UserMixin, db.Model):
             user.password = password
             return True, user
 
+    def generate_change_email_token(self, new_email, expiration=3600):
+        s = TSerializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'user_id': self.id, 'email': new_email})
+
+    @classmethod
+    def change_email(cls, token):
+        s = TSerializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)
+        except:
+            return False, "Invalid token"
+
+        user_id = data.get('user_id')
+        user = User.query.filter_by(id=user_id).first()
+        if user is None:
+            return False, "Invalid token - wrong user"
+        else:
+            user.email = data.get('email')
+            return True, user
+
+
 
     def __repr__(self):
         return '<User {}>'.format(self.username)

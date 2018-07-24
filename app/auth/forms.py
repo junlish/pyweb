@@ -42,7 +42,13 @@ class PasswordResetRequestForm(FlaskForm):
                                                      'Usernames must have only letters, numbers, dots or underscores')])
     submit = SubmitField('重置密码')
 
+
 class PasswordResetForm(FlaskForm):
     password = PasswordField('密码', validators=[DataRequired(), EqualTo('password2', message='两次输入密码必须一致')])
     password2 = PasswordField('确认密码', validators=[DataRequired()])
     submit = SubmitField('重置密码')
+
+
+class ChangeEmailRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Length(1, 64), Email()])
+    submit = SubmitField('重置Email地址')

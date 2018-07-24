@@ -1,0 +1,10 @@
+Dear {{ user.username }},
+
+Welcome!
+
+To reset your account please click on the following link:
+
+{{  url_for('auth.change_email', token=token, _external=True) }}
+
+
+Note: replies to this email address are not monitored.
