@@ -1,0 +1,29 @@
+{%  extends "base.html" %}
+{%  import "bootstrap/wtf.html" as wtf %}
+
+{%  block title %} 用户资料 {% endblock %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>  {{ user.username }} </h1>
+        <p>
+        {% if user.name %} {{ user.name }}  {% endif %}
+         {% if user.location %}
+           From  {{ user.location }}
+        {% endif %}
+        </p>
+
+        {%  if current_user.is_administrator() %}
+           <p> <a href="mailto: {{ user.email }} ">{{ user.email }}</a></p>
+            <p> 用户角色：  {{ user.role.name }}</p>
+        {% endif %}
+
+      {% if user.about_me %}  <p>{{ user.about_me }} </p> {% endif %}
+     <p>
+         <b>注册日期：</b>{{ moment(user.member_since).format('L') }}
+         <b>上一次登录：</b> {{ moment(user.last_seen).fromNow(refresh=True) }}
+     </p>
+
+    </div>
+
+{% endblock %}

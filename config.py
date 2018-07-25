@@ -9,7 +9,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = '2596486013@qq.com'
-    FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    #FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
+    FLASKY_ADMIN = 'lijun@sge.com.cn'
 
     @staticmethod
     def init_app(app):
@@ -24,7 +25,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = False
     MAIL_USERNAME = '2596486013'
     MAIL_PASSWORD = 'lzfgdlypkzxveccb'
-    FLASKY_ADMIN = 'lijun@sge.com.cn'
+
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
                               'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
