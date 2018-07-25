@@ -24,6 +24,7 @@ class DevelopmentConfig(Config):
     MAIL_USE_TLS = False
     MAIL_USERNAME = '2596486013'
     MAIL_PASSWORD = 'lzfgdlypkzxveccb'
+    FLASKY_ADMIN = 'lijun@sge.com.cn'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
                               'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
