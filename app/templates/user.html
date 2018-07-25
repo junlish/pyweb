@@ -1,11 +1,16 @@
 {%  extends "base.html" %}
 {%  import "bootstrap/wtf.html" as wtf %}
 
-{%  block title %} 用户资料 {% endblock %}
+{%  block title %} 用户资料{% endblock %}
 
 {% block page_content %}
     <div class="page-header">
         <h1>  {{ user.username }} </h1>
+    {%  if user == current_user %}
+           <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
+修改
+</a>
+    {% endif %}
         <p>
         {% if user.name %} {{ user.name }}  {% endif %}
          {% if user.location %}
