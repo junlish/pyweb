@@ -6,11 +6,7 @@
 {% block page_content %}
     <div class="page-header">
         <h1>  {{ user.username }} </h1>
-    {%  if user == current_user %}
-           <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
-修改
-</a>
-    {% endif %}
+
         <p>
         {% if user.name %} {{ user.name }}  {% endif %}
          {% if user.location %}
@@ -28,7 +24,17 @@
          <b>注册日期：</b>{{ moment(user.member_since).format('L') }}
          <b>上一次登录：</b> {{ moment(user.last_seen).fromNow(refresh=True) }}
      </p>
+ {%  if user == current_user %}
+           <a class="btn btn-default" href="{{ url_for('.edit_profile') }}">
+修改
+</a>
+    {% endif %}
 
+     {%  if current_user.is_administrator() %}
+           <a class="btn btn-danger" href="{{ url_for('.edit_profile_admin', id=user.id) }}">
+修改[管理员]
+</a>
+    {% endif %}
     </div>
 
 {% endblock %}
