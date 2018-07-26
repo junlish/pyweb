@@ -9,6 +9,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = '2596486013@qq.com'
+    FLASKY_POSTS_PER_PAGE = 10
     #FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     FLASKY_ADMIN = 'lijun@sge.com.cn'
 

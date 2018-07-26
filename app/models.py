@@ -146,7 +146,6 @@ class User(UserMixin, db.Model):
         self.last_seen = datetime.utcnow()
         db.session.add(self)
 
-
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
