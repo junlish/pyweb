@@ -83,3 +83,18 @@ def edit_profile_admin(id):
 def post(id):
     p = Post.query.get_or_404(id)
     return render_template('post.html', posts=[p])
+
+
+@main.route('/edit-post/<int:id>',methods=['GET','POST'])
+def edit_post(id):
+    p = Post.query.get_or_404(id)
+    if  current_user!=p.author and not current_user.is_administrator():
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        p.body = form.body.data
+        db.session.add(p)
+        flash("Post已修改")
+        return redirect(url_for('.post',id=id))
+    form.body.data = p.body
+    return render_template('edit_post.html', form= form)
