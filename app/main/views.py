@@ -77,3 +77,9 @@ def edit_profile_admin(id):
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
     return render_template('edit-profile.html', form=form, user=user)
+
+
+@main.route('/post/<int:id>')
+def post(id):
+    p = Post.query.get_or_404(id)
+    return render_template('post.html', posts=[p])
