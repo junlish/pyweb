@@ -3,9 +3,9 @@ from flask import render_template, session, redirect, url_for, abort, flash, req
 from flask_login import login_user, logout_user, login_required, current_user
 
 from app import db
-from app.models import User, Role
+from app.models import User, Role, Comment
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
 from app.decorators import admin_required, permission_required
 from app.models import Permission, Post, User
 
@@ -104,10 +104,24 @@ def edit_profile_admin(id):
     return render_template('edit-profile.html', form=form, user=user)
 
 
-@main.route('/post/<int:id>')
+@main.route('/post/<int:id>',methods=['GET','POST'])
 def post(id):
     p = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[p])
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data, post=p, author=current_user._get_current_object())
+        db.session.add(comment)
+        flash("评论已添加")
+        return redirect(url_for('.post', id=p.id, page=-1))
+
+    page = request.args.get('page', 1, type=int)
+    per_page = current_app.config['FLASKY_COMMENTS_PER_PAGE']
+    if page==-1:
+        #calcuate last page
+        page = (p.comments.count() -1)/ per_page + 1
+    pagination = p.comments.order_by(Comment.timestamp.asc()).paginate(page, per_page=per_page , error_out=False)
+    comments = pagination.items
+    return render_template('post.html', posts=[p],form=form, comments=comments, pagination=pagination)
 
 
 @main.route('/edit-post/<int:id>',methods=['GET','POST'])
@@ -184,3 +198,4 @@ def followed_by(username):
     follows = [{'user': item.followed, 'timestamp': item.timestamp} for item in pagination.items]
     return render_template('followers.html', user=user, title="Followed by ", endpoint='.followed_by',
                            pagination=pagination, follows=follows)
+

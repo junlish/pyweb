@@ -26,6 +26,9 @@
                              <span class="label label-danger">修改[Admin]</span>
                             </a>
                         {% endif %}
+                          <a href="{{ url_for('.post', id=post.id) }}#comments">
+                            <span class="label label-primary">{{ post.comments.count() }} 评论</span>
+                        </a>
                     </div>
                 </div>
             </li>
