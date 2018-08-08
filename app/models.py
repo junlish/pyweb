@@ -232,6 +232,7 @@ class Comment(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    disabled = db.Column(db.Boolean, default=False)
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):

@@ -48,5 +48,5 @@ class PostForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    body = PageDownField("", validators=[DataRequired()])
+    body = StringField("", validators=[DataRequired()])
     submit = SubmitField("提交")
