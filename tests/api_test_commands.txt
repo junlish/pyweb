@@ -1,0 +1,19 @@
+
+http --json --auth test@qq.com:123123 GET http://127.0.0.1:5000/api/v1.0/posts
+
+http --json --auth normal@test.com:123123 POST http://127.0.0.1:5000/api/v1.0/token
+     "token": "eyJhbGciOiJIUzI1NiIsImlhdCI6MTUzMzg4OTI5OCwiZXhwIjoxNTMzODkyODk4fQ.eyJpZCI6Mn0.G6-XyKjutHLXM-Bxsi3kFrApTCJYfL5UD_hXQycWePA"
+set TOKEN=eyJhbGciOiJIUzI1NiIsImlhdCI6MTUzMzg4OTI5OCwiZXhwIjoxNTMzODkyODk4fQ.eyJpZCI6Mn0.G6-XyKjutHLXM-Bxsi3kFrApTCJYfL5UD_hXQycWePA
+
+
+http --json --auth %TOKEN% GET http://127.0.0.1:5000/api/v1.0/posts/
+
+http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/users/100
+
+http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/users/100/posts/
+
+http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/posts/102/comments/
+
+http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/comments/2
+
+
