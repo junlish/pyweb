@@ -17,3 +17,6 @@ http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/posts/102/comment
 http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/comments/2
 
 
+http --json --auth %TOKEN%  GET http://127.0.0.1:5000/api/v1.0/posts/101/comments/
+
+

@@ -78,3 +78,13 @@ class UserModelTestCase(unittest.TestCase):
         db.session.commit()
         self.assertTrue(Follow.query.count() == 0)
 
+    def test_to_json(self):
+        u = User(email='john@abc.com',password='cat')
+        db.session.add(u)
+        db.session.commit()
+        with self.app.test_request_context('/'):
+            json_user = u.to_json()
+        expected_keys = ['url', 'username', 'member_since', 'last_seen',
+                         'posts', 'followed_posts_url', 'post_count']
+        self.assertEqual(sorted(json_user.keys()), sorted(expected_keys))
+        self.assertEqual('http://localhost/api/v1.0/users/' + str(u.id), json_user['url'])
