@@ -9,7 +9,8 @@ if os.environ.get('FLASK_COVERAGE'):
 import click
 from app import create_app, db
 from app.models import Role, User, Follow, Permission, Post,Comment
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
+
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
@@ -51,3 +52,10 @@ def profile(length, profile_dir):
     app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[length],
                                       profile_dir=profile_dir)
     app.run(debug=False)
+
+
+@app.cli.command()
+def deploy():
+    upgrade()
+    Role.insert_roles()
+    User.add_self_follows()
